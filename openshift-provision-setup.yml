@@ -1,0 +1,85 @@
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  annotations:
+    description: openshift-provision example-1
+  name: provision-example-1
+
+parameters:
+- name: PROJECT_NAME
+  value: provision-example-1
+- name: OPENSHIFT_PROVISION_NAMESPACE
+  value: openshift-provision
+- name: GIT_URI
+  value: https://github.com/gnuthought/openshift-provision-example-1.git
+- name: WEBHOOK_KEY
+  generate: expression
+  from: '[a-zA-Z0-9]{8}'
+
+objects:
+- apiVersion: project.openshift.io/v1
+  kind: Project
+  metadata:
+    name: ${PROJECT_NAME}
+  spec:
+    finalizers:
+    - kubernetes
+
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: ${PROJECT_NAME}
+    namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
+
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    name: openshift-provision-admin
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: admin
+  subjects:
+  - kind: ServiceAccount
+    name: ${PROJECT_NAME}
+    namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
+
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    name: openshift-provision-resource-manager
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: resource-manager
+  subjects:
+  - kind: ServiceAccount
+    name: ${PROJECT_NAME}
+    namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
+
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${PROJECT_NAME}
+    namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
+    labels:
+      openshift-provision.gnuthought.com/config: "true"
+  data:
+    git_uri: ${GIT_URI}
+    check_mode: "true"
+    config_path: provision.yml
+    service_account: ${PROJECT_NAME}
+    webhook_secret: ${PROJECT_NAME}
+    params: |
+      example_project: example-1
+
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${PROJECT_NAME}
+    namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
+  stringData:
+    key: ${WEBHOOK_KEY}
