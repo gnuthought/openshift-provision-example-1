@@ -22,6 +22,8 @@ objects:
   kind: Project
   metadata:
     name: ${PROJECT_NAME}
+    annotations:
+      openshift-provision/action: create
   spec:
     finalizers:
     - kubernetes
@@ -38,8 +40,6 @@ objects:
     name: openshift-provision-admin
     namespace: ${PROJECT_NAME}
   roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
     name: admin
   subjects:
   - kind: ServiceAccount
@@ -52,8 +52,6 @@ objects:
     name: openshift-provision-resource-manager
     namespace: ${PROJECT_NAME}
   roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
     name: resource-manager
   subjects:
   - kind: ServiceAccount
@@ -81,5 +79,7 @@ objects:
   metadata:
     name: ${PROJECT_NAME}
     namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
+    annotations:
+      openshift-provision/action: create
   stringData:
     key: ${WEBHOOK_KEY}
