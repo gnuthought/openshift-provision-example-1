@@ -1,7 +1,7 @@
 ---
 openshift_provision:
   projects:
-  - name: "{{ example_project }}"
+  - name: "{{ project_name }}"
 
     resources:
     - apiVersion: v1
