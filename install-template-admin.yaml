@@ -40,6 +40,8 @@ objects:
     name: openshift-provision-admin
     namespace: ${PROJECT_NAME}
   roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
     name: admin
   subjects:
   - kind: ServiceAccount
@@ -52,6 +54,8 @@ objects:
     name: openshift-provision-resource-manager
     namespace: ${PROJECT_NAME}
   roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
     name: resource-manager
   subjects:
   - kind: ServiceAccount
