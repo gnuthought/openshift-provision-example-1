@@ -76,7 +76,7 @@ objects:
     service_account: ${PROJECT_NAME}
     webhook_secret: ${PROJECT_NAME}
     params: |
-      example_project: example-1
+      example_project: ${PROJECT_NAME}
 
 - apiVersion: v1
   kind: Secret
