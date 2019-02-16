@@ -62,7 +62,7 @@ objects:
   data:
     git_uri: ${GIT_URI}
     check_mode: "true"
-    config_path: provision.yml
+    config_path: provision.yaml
     service_account: ${PROJECT_NAME}
     webhook_secret: ${PROJECT_NAME}
     params: |
