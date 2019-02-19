@@ -11,7 +11,7 @@ parameters:
   value: provision-example-1
 - name: OPENSHIFT_PROVISION_NAMESPACE
   value: openshift-provision
-- name: GIT_URI
+- name: GIT_URL
   value: https://github.com/gnuthought/openshift-provision-example-1.git
 - name: WEBHOOK_KEY
   generate: expression
@@ -60,19 +60,18 @@ objects:
     labels:
       openshift-provision.gnuthought.com/config: "true"
   data:
-    git_uri: ${GIT_URI}
+    git_uri: ${GIT_URL}
     check_mode: "true"
     config_path: provision.yaml
     service_account: ${PROJECT_NAME}
-    webhook_secret: ${PROJECT_NAME}
-    params: |
+    vars: |
       project_name: ${PROJECT_NAME}
       openshift_provision_namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
 
 - apiVersion: v1
   kind: Secret
   metadata:
-    name: ${PROJECT_NAME}
+    name: ${PROJECT_NAME}-webhook
     namespace: ${OPENSHIFT_PROVISION_NAMESPACE}
     annotations:
       openshift-provision/action: create
