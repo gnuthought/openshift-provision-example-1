@@ -70,7 +70,7 @@ openshift_provision:
     - role: admin
       users:
       - alice
-      - system:serviceaccount:{{ openshift_provision_namespace }}:{{ project_name }}
+      - system:serviceaccount:{{ openshift_provision_manager_namespace }}:{{ project_name }}
       remove_unlisted: true
     - role: edit
       groups:
