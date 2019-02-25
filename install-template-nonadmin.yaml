@@ -64,6 +64,7 @@ objects:
     check_mode: "true"
     config_path: provision.yaml
     service_account: ${PROJECT_NAME}
+    webhook_secret: ${PROJECT_NAME}-webhook
     vars: |
       project_name: ${PROJECT_NAME}
 
