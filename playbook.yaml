@@ -1,0 +1,11 @@
+---
+- name: Local testing
+  hosts: localhost
+  connection: local
+  roles:
+  - openshift-provision
+  vars:
+    project_name: provision-example-1
+    openshift_provision_manager_namespace: openshift-provision
+  vars_files:
+  - provision.yaml
